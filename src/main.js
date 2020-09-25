@@ -1,13 +1,39 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import App from './App'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import App from './App.vue'
+import router from './routes.js'
+import store from './store'
+import IdleVue from 'idle-vue'
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+const eventsHub = new Vue()
+
+Vue.use(IdleVue, {
+  eventEmitter: eventsHub,
+  idleTime: 60000
+})
+
+Vue.use(ElementUI);
 
 Vue.config.productionTip = false
 
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  components: { App },
-  template: '<App/>'
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresLogin)) {
+    if (!store.getters.loggedIn) {
+      next({ name: 'login' })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
 })
+
+new Vue({
+  router,
+  store,
+  render: h => h(App),
+}).$mount('#app')
+
+

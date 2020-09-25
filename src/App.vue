@@ -1,37 +1,31 @@
 <template>
   <div id="app">
-    <button @click="SelectWinner()">Select a Winner</button>
-    <p>
-      {{winner}}
-    </p>
+    <router-view/>
   </div>
 </template>
+
 <script>
-import axios from 'axios';
+
+
 export default {
   name: 'App',
-  data() {
-      return {
-          names: null,
-          winner: null,
-      }
-  },
-  mounted: function() {
-    this.FetchData();
-  },
-  methods: {
-      FetchData: function() {
-          var app = this;
-          axios.get(process.env.API_URL + "/api_example/").then(response => {
-              app.names = response.data.names;
-          });
-      },
-      SelectWinner: function() {
-        var winner = this.names[Math.floor(Math.random()*this.names.length)];
-        this.winner = winner;
-      },
+  onIdle () {
+    if (this.$store.getters.loggedIn) {
+      console.log('yes is login try to refresh token')
+      this.$store.dispatch('refreshToken')
+      .then(() => {
+        console.log('auto run')
+      })
+    }
+    
   }
 }
 </script>
+
 <style>
+  body {
+    margin: 0;
+    padding: 0;
+    background-color:#f8f8f8!important;
+  }
 </style>
