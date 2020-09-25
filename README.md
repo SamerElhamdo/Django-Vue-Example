@@ -13,7 +13,5 @@ npm run build
 # install Python dependencies
 pip install -r requirements.txt
 
-remove 
-    node build/build.js
 
 ```
