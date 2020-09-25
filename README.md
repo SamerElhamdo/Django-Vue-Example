@@ -14,6 +14,6 @@ npm run build
 pip install -r requirements.txt
 
 remove 
-    "postinstall": "npm run build"
+    node build/build.js
 
 ```
