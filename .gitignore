@@ -31,7 +31,6 @@ yarn-error.log*
 env/
 venv/
 develop-eggs/
-dist/
 downloads/
 eggs/
 lib/
